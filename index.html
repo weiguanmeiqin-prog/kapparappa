@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">河童捕獲局</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="game-container">
+
+        <div id="news-bar" class="news-bar">
+            <span class="news-label">【河童ニュース】</span>
+            <div class="news-ticker">
+                <span id="news-text">ニュースを取得中...</span>
+            </div>
+        </div>
+
+        <section id="screen-title" class="screen active">
+            <div class="title-header">
+                <h1 id="title-logo" class="title-logo" title="何かが起きるかも…？">河童捕獲局</h1>
+                <p id="title-catchphrase" class="catchphrase">河童はいます。問題は、逃げ足が速いことです。</p>
+            </div>
+
+            <div class="menu-buttons">
+                <button id="btn-start" class="btn btn-primary">調査開始</button>
+                <button id="btn-pedia" class="btn">河童図鑑</button>
+                <button id="btn-achieve" class="btn">実績</button>
+                <button id="btn-lottery" class="btn btn-accent">きゅうり抽選会</button>
+                <button id="btn-setting" class="btn">設定</button>
+            </div>
+
+            <footer class="title-footer">
+                <p class="version-tag">Version 1.0.0 — 河童調査専門機関</p>
+            </footer>
+        </section>
+
+
+        <section id="screen-main" class="screen">
+            <header class="game-header">
+                <button id="btn-back-title" class="btn-small">タイトルへ</button>
+                <div class="status-group">
+                    <span class="status-item">🥒 <span id="cucumber-count">0</span>本</span>
+                    <span class="status-item">信頼度: <span id="trust-level">0</span>%</span>
+                </div>
+            </header>
+
+            <div class="gauge-container">
+                <span class="gauge-label">河童存在率</span>
+                <div class="gauge-bar-bg">
+                    <div id="trust-gauge-fill" class="gauge-bar-fill" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <div id="river-field" class="river-field">
+                <div class="field-item item-water" data-type="water" title="川の水">🌊</div>
+                <div class="field-item item-stone" data-type="stone" title="大きな石">🪨</div>
+                <div class="field-item item-grass" data-type="grass" title="茂み">🌿</div>
+                <div class="field-item item-tree" data-type="tree" title="岸辺の木">🌳</div>
+                <div class="field-item item-bridge" data-type="bridge" title="古い橋">🌉</div>
+                <div class="field-item item-cucumber" data-type="cucumber" title="浮いているきゅうり">🥒</div>
+                <div class="field-item item-trash" data-type="trash" title="漂流ゴミ">👟</div>
+                <div class="field-item item-bubble" data-type="bubble" title="怪しい泡">🫧</div>
+
+                <div id="kappa-target" class="kappa-target hidden" role="button" aria-label="河童">
+                    <span id="kappa-avatar">🥒 (・∀・)</span>
+                </div>
+            </div>
+
+            <div id="event-log" class="event-log">
+                <p id="log-text">川をタップして調査を開始してください。</p>
+            </div>
+        </section>
+
+
+        <section id="screen-pedia" class="screen">
+            <header class="screen-header">
+                <h2>河童図鑑</h2>
+                <span id="pedia-completion" class="pedia-completion">発見率: 0 / 0</span>
+            </header>
+
+            <div id="pedia-filter" class="filter-bar">
+                <button class="filter-btn active" data-rarity="ALL">すべて</button>
+                <button class="filter-btn" data-rarity="N">N</button>
+                <button class="filter-btn" data-rarity="R">R</button>
+                <button class="filter-btn" data-rarity="SR">SR</button>
+                <button class="filter-btn" data-rarity="SSR">SSR</button>
+                <button class="filter-btn" data-rarity="UR">UR</button>
+                <button class="filter-btn" data-rarity="KR">KR</button>
+            </div>
+
+            <div id="pedia-list" class="pedia-grid">
+                </div>
+
+            <button class="btn btn-back">戻る</button>
+        </section>
+
+
+        <section id="screen-achieve" class="screen">
+            <header class="screen-header">
+                <h2>実績一覧</h2>
+            </header>
+
+            <div id="achieve-list" class="achieve-list">
+                </div>
+
+            <button class="btn btn-back">戻る</button>
+        </section>
+
+
+        <section id="screen-lottery" class="screen">
+            <header class="screen-header">
+                <h2>きゅうり抽選会</h2>
+                <p class="sub-title">きゅうり 5個 で1回まわせるぞ！</p>
+            </header>
+
+            <div class="lottery-box">
+                <div id="lottery-disp" class="lottery-disp">🥒❓🥒</div>
+                <button id="btn-draw-lottery" class="btn btn-accent">1回引く（🥒×5）</button>
+            </div>
+
+            <button class="btn btn-back">戻る</button>
+        </section>
+
+
+        <section id="screen-setting" class="screen">
+            <header class="screen-header">
+                <h2>設定</h2>
+            </header>
+
+            <div class="setting-list">
+                <div class="setting-item">
+                    <span>BGM</span>
+                    <button id="btn-toggle-bgm" class="btn-toggle">ON</button>
+                </div>
+                <div class="setting-item">
+                    <span>SE（効果音）</span>
+                    <button id="btn-toggle-se" class="btn-toggle">ON</button>
+                </div>
+                <div class="setting-item">
+                    <span>データ保存</span>
+                    <button id="btn-save-game" class="btn-small">今すぐ保存</button>
+                </div>
+                <div class="setting-item">
+                    <span>データ消去</span>
+                    <button id="btn-reset-game" class="btn-danger">リセット</button>
+                </div>
+            </div>
+
+            <button class="btn btn-back">戻る</button>
+        </section>
+
+
+        <div id="modal-detail" class="modal hidden">
+            <div class="modal-content">
+                <span id="modal-close" class="modal-close">&times;</span>
+                <div id="modal-body"></div>
+            </div>
+        </div>
+
+        <div id="overlay-scary" class="overlay-dark hidden">
+            <div id="scary-text" class="scary-text">後ろ。</div>
+        </div>
+
+        <div id="overlay-cucumber" class="overlay-cucumber hidden"></div>
+
+        <div id="overlay-ending" class="overlay-ending hidden">
+            <div class="ending-content">
+                <div id="ending-meeting" class="ending-text">
+                    <p>河童たちが会議を開いている……</p>
+                </div>
+                <div id="ending-final" class="ending-final hidden">
+                    <h2>君も今日から河童です。</h2>
+                    <button id="btn-ending-restart" class="btn btn-primary">タイトルへ戻る</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <audio id="audio-bgm" loop></audio>
+    <audio id="audio-se"></audio>
+
+    <script src="main.js"></script>
+</body>
+</html>
