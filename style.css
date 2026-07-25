@@ -1,0 +1,552 @@
+/* ==========================================
+   河童捕獲局 - Main Stylesheet (Version 1.0)
+   ========================================== */
+
+/* ------------------------------------------
+   1. 変数定義 & 全体リセット
+   ------------------------------------------ */
+:root {
+    /* カラーパレット (開発指示書準拠) */
+    --color-bg-paper: #f4efe6;      /* 紙・レトロ感のあるベージュ */
+    --color-main-green: #7bc043;    /* きゅうり・河童グリーン */
+    --color-dark-green: #4f8029;    /* 深緑 (影・アクセント) */
+    --color-water-blue: #4fc3f7;    /* 川の水色 */
+    --color-deep-blue: #0288d1;     /* 川の深み */
+    --color-wood-brown: #8d6e63;    /* 木枠・ナチュラルブラウン */
+    --color-wood-dark: #5d4037;     /* 濃い木目 */
+    --color-accent-orange: #ff9800;  /* ボタン・アイキャッチ */
+    --color-text-main: #3e2723;     /* 文字色（濃い茶色で柔らかく） */
+    --color-text-white: #ffffff;
+    --color-danger-red: #e53935;
+
+    /* 丸み・フォント */
+    --radius-round: 25px;
+    --radius-card: 16px;
+    --font-family-main: "Hiragino Maru Gothic ProN", "ヒラギノ丸ゴ ProN", "Meiryo UI", sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none; /* ゲーム感を出すためテキスト選択を無効化 */
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: #1a1a1a;
+    font-family: var(--font-family-main);
+    color: var(--color-text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* ------------------------------------------
+   2. ゲームコンテナ (画面枠・レスポンシブ)
+   ------------------------------------------ */
+#game-container {
+    width: 100%;
+    max-width: 440px;
+    height: 720px;
+    max-height: 96vh;
+    background-color: var(--color-bg-paper);
+    border: 8px solid var(--color-wood-brown);
+    border-radius: 28px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(141, 110, 99, 0.2);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ------------------------------------------
+   3. ニューステロップバー
+   ------------------------------------------ */
+.news-bar {
+    background-color: #2b2b2b;
+    color: #fff;
+    height: 36px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
+    border-bottom: 3px solid var(--color-wood-brown);
+    z-index: 10;
+}
+
+.news-label {
+    background-color: var(--color-accent-orange);
+    color: var(--color-text-white);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    margin-right: 8px;
+}
+
+.news-ticker {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+}
+
+#news-text {
+    display: inline-block;
+    padding-left: 100%;
+    animation: ticker 12s linear infinite;
+    color: #ffee55;
+    font-weight: bold;
+}
+
+@keyframes ticker {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
+}
+
+/* ------------------------------------------
+   4. 共通画面管理 & ボタンデザイン (丸く・かわいく)
+   ------------------------------------------ */
+.screen {
+    display: none;
+    flex: 1;
+    padding: 16px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    overflow-y: auto;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* ボタン基本スタイル */
+.btn {
+    width: 100%;
+    background-color: var(--color-main-green);
+    color: var(--color-text-white);
+    border: none;
+    border-bottom: 5px solid var(--color-dark-green);
+    padding: 12px;
+    border-radius: var(--radius-round);
+    font-size: 1.05rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.btn:active {
+    transform: translateY(3px);
+    border-bottom-width: 2px;
+}
+
+.btn-primary {
+    background-color: #8bc34a;
+    border-color: #689f38;
+    font-size: 1.2rem;
+    padding: 14px;
+}
+
+.btn-accent {
+    background-color: var(--color-accent-orange);
+    border-color: #e65100;
+}
+
+.btn-small {
+    background-color: #b0bec5;
+    border: none;
+    border-bottom: 3px solid #78909c;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-danger {
+    background-color: var(--color-danger-red);
+    border: none;
+    border-bottom: 3px solid #b71c1c;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ------------------------------------------
+   5. タイトル画面
+   ------------------------------------------ */
+#screen-title {
+    background: linear-gradient(180deg, #e0f7fa 0%, var(--color-bg-paper) 100%);
+    text-align: center;
+}
+
+.title-header {
+    margin-top: 20px;
+}
+
+.title-logo {
+    font-size: 2.5rem;
+    color: var(--color-dark-green);
+    text-shadow: 3px 3px 0px #fff, 5px 5px 0px var(--color-main-green);
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.title-logo:active {
+    transform: scale(0.95);
+}
+
+.catchphrase {
+    font-size: 0.85rem;
+    color: #6d4c41;
+    margin-top: 8px;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 4px 12px;
+    border-radius: 12px;
+    display: inline-block;
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 85%;
+    margin: 20px 0;
+}
+
+.title-footer {
+    font-size: 0.75rem;
+    color: #a1887f;
+}
+
+/* ------------------------------------------
+   6. メイン調査画面 (川のフィールド)
+   ------------------------------------------ */
+.game-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.status-group {
+    display: flex;
+    gap: 10px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    background: #fff;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 2px solid var(--color-wood-brown);
+}
+
+/* ゲージバー */
+.gauge-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.gauge-label {
+    font-size: 0.75rem;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.gauge-bar-bg {
+    flex: 1;
+    height: 12px;
+    background-color: #e0e0e0;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #bbb;
+}
+
+.gauge-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-main-green), var(--color-accent-orange));
+    transition: width 0.3s ease;
+}
+
+/* 川フィールド本体 */
+.river-field {
+    width: 100%;
+    height: 380px;
+    background: linear-gradient(180deg, #81d4fa 0%, var(--color-water-blue) 40%, var(--color-deep-blue) 100%);
+    border-radius: 20px;
+    border: 4px solid var(--color-wood-brown);
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
+}
+
+/* フィールドアイテム (クリック要素) */
+.field-item {
+    position: absolute;
+    font-size: 2.2rem;
+    cursor: pointer;
+    transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    filter: drop-shadow(2px 3px 2px rgba(0,0,0,0.3));
+}
+
+.field-item:active {
+    transform: scale(0.7) rotate(-10deg);
+}
+
+/* オブジェクト個別の位置配置 */
+.item-water  { top: 50%; left: 45%; }
+.item-stone  { top: 70%; left: 15%; }
+.item-grass  { top: 20%; left: 75%; }
+.item-tree   { top: 10%; left: 10%; font-size: 3rem; }
+.item-bridge { top: 5%;  left: 40%; font-size: 3.5rem; }
+.item-cucumber { top: 80%; left: 70%; }
+.item-trash  { top: 40%; left: 20%; }
+.item-bubble { top: 60%; left: 80%; }
+
+/* 出現する河童ターゲット */
+.kappa-target {
+    position: absolute;
+    font-size: 3.2rem;
+    cursor: pointer;
+    z-index: 5;
+    animation: kappaJump 0.6s infinite alternate cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+}
+
+@keyframes kappaJump {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(-15px) scale(1.08); }
+}
+
+/* イベントログ */
+.event-log {
+    width: 100%;
+    height: 64px;
+    background-color: #fff;
+    border: 3px solid var(--color-wood-brown);
+    border-radius: 16px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-top: 8px;
+    box-shadow: 0 4px 0px rgba(0,0,0,0.05);
+}
+
+/* ------------------------------------------
+   7. 図鑑・実績・設定画面
+   ------------------------------------------ */
+.screen-header {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.screen-header h2 {
+    color: var(--color-dark-green);
+    font-size: 1.6rem;
+    text-shadow: 1px 1px 0 #fff;
+}
+
+.pedia-completion {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #666;
+}
+
+/* フィルターボタン */
+.filter-bar {
+    display: flex;
+    gap: 4px;
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.filter-btn {
+    background: #e0e0e0;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.filter-btn.active {
+    background: var(--color-main-green);
+    color: #fff;
+}
+
+/* 図鑑グリッド */
+.pedia-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: 100%;
+    height: 420px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.pedia-card {
+    background: #fff;
+    border: 2px solid #ddd;
+    border-radius: var(--radius-card);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.pedia-card.locked {
+    background: #eceff1;
+    opacity: 0.7;
+}
+
+.rarity-badge {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    font-size: 0.65rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 8px;
+    color: #fff;
+    background: #78909c;
+}
+
+.rarity-KR { background: #9c27b0; }
+.rarity-UR { background: #ff9800; }
+.rarity-SSR { background: #e91e63; }
+
+/* 実績リスト */
+.achieve-list, .setting-list {
+    width: 100%;
+    height: 440px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.achieve-item, .setting-item {
+    background: #fff;
+    border-radius: var(--radius-card);
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid #e0e0e0;
+}
+
+/* ------------------------------------------
+   8. 特殊演出・モーダル・暗転レイヤー
+   ------------------------------------------ */
+.hidden {
+    display: none !important;
+}
+
+/* モーダル */
+.modal {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.modal-content {
+    background: #fff;
+    width: 85%;
+    padding: 20px;
+    border-radius: 20px;
+    border: 4px solid var(--color-wood-brown);
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px; right: 14px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ホラー暗転演出（「後ろ。」） */
+.overlay-dark {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+.scary-text {
+    color: #d32f2f;
+    font-size: 3rem;
+    font-family: serif;
+    letter-spacing: 4px;
+    animation: pulseScary 0.2s infinite alternate;
+}
+
+@keyframes pulseScary {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.05); opacity: 1; }
+}
+
+/* 全体きゅうり埋め尽くし演出 */
+.overlay-cucumber {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(123, 192, 67, 0.9);
+    z-index: 150;
+    background-image: radial-gradient(#4f8029 20%, transparent 20%);
+    background-size: 30px 30px;
+}
+
+/* エンディング画面 */
+.overlay-ending {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #111;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    text-align: center;
+    z-index: 300;
+}
+
+.ending-final h2 {
+    font-size: 1.8rem;
+    color: var(--color-main-green);
+    margin-bottom: 20px;
+}
